@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>InternPro - Task & Internship Manager</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0b0f19;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            height: 100vh;
+            width: 240px;
+            position: fixed;
+            background: linear-gradient(180deg, #020617, #020617, #030a1a);
+            padding: 28px 18px;
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* LOGO */
+        .sidebar h4 {
+            color: #ffffff;
+            text-align: left;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .sidebar small {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* NAV LINKS */
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.25s ease;
+        }
+
+        /* HOVER */
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            transform: translateX(4px);
+        }
+
+        /* ACTIVE LINK (dashboard current page) */
+        .sidebar a.active {
+            background: linear-gradient(90deg, #2563eb22, #6366f122);
+            color: #60a5fa !important;
+            border: 1px solid rgba(99, 102, 241, 0.35);
+        }
+
+        /* LOGOUT SPECIAL */
+        .sidebar a.logout:hover {
+            background: rgba(239, 68, 68, 0.18);
+            color: #ef4444 !important;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            margin-left: 240px;
+            padding: 28px;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: linear-gradient(145deg, #020617, #0b1220);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            color: #e6edf3;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        .card::before {
+            content: "";
+            position: relative;
+            inset: 0;
+            border-radius: 18px;
+            background: radial-gradient(circle at top left,
+                    rgba(59, 130, 246, 0.05), transparent);
+            pointer-events: none;
+        }
+
+        /* INPUTS */
+        input,
+        select {
+            background: #020617 !important;
+            color: white !important;
+            border: 1px solid #1f2937 !important;
+        }
+
+        /* TABLE */
+        .table {
+            color: white;
+        }
+
+        /* BADGES */
+        .badge {
+            font-size: 12px;
+        }
+
+        /* form card */
+        .form-card {
+            background: linear-gradient(145deg, #020617, #0b1220);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+            transition: 0.3s;
+        }
+
+        .form-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        /* title */
+        .form-title {
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+
+        /* inputs */
+        .custom-input {
+            background: #020617 !important;
+            border: 1px solid #1f2937 !important;
+            color: #e5e7eb !important;
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .custom-input:focus {
+            border: 1px solid #3b82f6 !important;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+        }
+
+        /* buttons */
+        .btn-primary {
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            border: none;
+            font-weight: 600;
+        }
+
+        .btn-success {
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+            border: none;
+            font-weight: 600;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: 0.9;
+            cursor: pointer;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
+        }
+
+        /* input text visible */
+        .custom-input {
+            background: #020617 !important;
+            border: 1px solid #1f2937 !important;
+            color: #e5e7eb !important;
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        /* placeholder color FIX */
+        .custom-input::placeholder {
+            color: #94a3b8 !important;
+            opacity: 1;
+        }
+
+        /* when typing */
+        .custom-input:focus {
+            color: white !important;
+            border: 1px solid #3b82f6 !important;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+        }
+
+        /* select dropdown arrow fix */
+        select.custom-input {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+
+            background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 20 20' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M5 7l5 5 5-5H5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 18px;
+            padding-right: 40px;
+        }
+
+        /* task card */
+        .task-card {
+            background: linear-gradient(145deg, #020617, #0b1220);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 16px 18px;
+            transition: 0.25s;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+        }
+
+        .task-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+        }
+
+        /* urgent glow */
+        .task-card.urgent {
+
+            background: linear-gradient(145deg, #020617, #140a0a);
+            border-left: 4px solid #ef4444;
+        }
+
+        /* subtle completed badge */
+        .bg-success-subtle {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        /* table styling */
+        .internship-table {
+            background: transparent !important;
+        }
+
+        .internship-table thead,
+        .internship-table tbody,
+        .internship-table tr,
+        .internship-table td,
+        .internship-table th {
+            background: transparent !important;
+        }
+
+        .internship-table thead th {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .internship-table tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.25s;
+        }
+
+        .internship-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* status badges */
+        .status-applied {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .status-interview {
+            background: rgba(234, 179, 8, 0.18);
+            color: #facc15;
+            border: 1px solid rgba(234, 179, 8, 0.35);
+        }
+
+        .status-selected {
+            background: rgba(34, 197, 94, 0.18);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.35);
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.18);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.35);
+        }
+
+        /* subtle top badge */
+        .bg-primary-subtle {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .internship-table td {
+            color: #e5e7eb !important;
+            font-weight: 500;
+        }
+
+        .internship-table th {
+            color: #94a3b8 !important;
+            font-weight: 600;
+        }
+
+        /* center wrapper */
+        .login-wrapper {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at top, #0b1220, #020617);
+        }
+
+        /* glass login card */
+        .login-card {
+            width: 380px;
+            padding: 40px 32px;
+            border-radius: 18px;
+            background: linear-gradient(145deg, #020617, #0b1220);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+        }
+
+        /* title */
+        .login-title {
+            color: white;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        /* subtitle */
+        .login-sub {
+            color: #94a3b8;
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        /* labels */
+        .form-label {
+            color: #cbd5e1;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        /* login button glow */
+        .btn-primary {
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            border: none;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        /* create account link */
+        .create-link {
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .create-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar p-4">
+
+        <!-- LOGO -->
+        <div class="mb-5">
+            <h2 class="fw-bold text-white mb-0" style="font-size:26px;">InternPro</h2>
+            <small class="text-secondary">Productivity Suite</small>
+        </div>
+
+        <!-- NAV -->
+        <div class="nav flex-column gap-2">
+
+            <a href="/dashboard" class="active">📊 Dashboard</a>
+            <a href="/analytics">📈 Analytics</a>
+            <a href="/logout" class="logout">🚪 Logout</a>
+
+        </div>
+
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+
+</html>

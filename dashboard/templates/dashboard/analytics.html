@@ -1,0 +1,164 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+
+<div class="mb-4">
+    <h2 class="fw-bold text-white mb-1" style="font-size:28px;">
+        📊 Analytics Overview
+    </h2>
+    <p class="text-secondary mb-0" style="font-size:14px;">
+        Track performance and productivity insights.
+    </p>
+</div>
+
+<div class="row mb-4">
+
+    <div class="card p-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <p class="text-secondary mb-1">Total Tasks</p>
+                <h3 class="fw-bold text-white mb-0">{{total_tasks}}</h3>
+            </div>
+            <div class="rounded-circle bg-primary bg-opacity-25 
+                    d-flex align-items-center justify-content-center" style="width:40px;height:40px;">
+                📋
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <p class="text-success mb-1">Completed Tasks</p>
+                <h3 class="fw-bold text-white mb-0">{{completed_tasks}}</h3>
+            </div>
+            <div class="rounded-circle bg-primary bg-opacity-25 
+                    d-flex align-items-center justify-content-center" style="width:40px;height:40px;">
+                📋
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <p class="text-warning mb-1">Pending Tasks</p>
+                <h3 class="fw-bold text-white mb-0">{{pending_tasks}}</h3>
+            </div>
+            <div class="rounded-circle bg-primary bg-opacity-25 
+                    d-flex align-items-center justify-content-center" style="width:40px;height:40px;">
+                📋
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <p class="text-info mb-1">Applications</p>
+                <h3 class="fw-bold text-white mb-0">{{total_internships}}</h3>
+            </div>
+            <div class="rounded-circle bg-primary bg-opacity-25 
+                    d-flex align-items-center justify-content-center" style="width:40px;height:40px;">
+                📋
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row g-4">
+
+    <!-- LEFT CHART -->
+    <div class="col-md-6 col-lg-6">
+        <div class="card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0">Task Completion</h5>
+                <span class="badge bg-secondary">Overview</span>
+            </div>
+
+            <div style="height:300px;">
+                <canvas id="completionChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT CHART -->
+    <div class="col-md-6 col-lg-6">
+        <div class="card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="text-white mb-0">Priority Distribution</h5>
+                <span class="badge bg-secondary">Tasks</span>
+            </div>
+
+            <div style="height:300px;">
+                <canvas id="priorityChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const completed = Number("{{ completed_tasks|default:0 }}");
+        const pending = Number("{{ pending_tasks|default:0 }}");
+
+        const high = Number("{{ high_priority|default:0 }}");
+        const medium = Number("{{ medium_priority|default:0 }}");
+        const low = Number("{{ low_priority|default:0 }}");
+
+        // Completion Chart
+        const completionCanvas = document.getElementById("completionChart");
+        if (completionCanvas) {
+            new Chart(completionCanvas, {
+                type: "doughnut",
+                data: {
+                    labels: ["Completed", "Pending"],
+                    datasets: [{
+                        data: [completed, pending],
+                        backgroundColor: ["#16a34a", "#dc2626"]
+                    }]
+                },
+                options: {
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#cbd5e1'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Priority Chart
+        const priorityCanvas = document.getElementById("priorityChart");
+        if (priorityCanvas) {
+            new Chart(priorityCanvas, {
+                type: "bar",
+                data: {
+                    labels: ["High", "Medium", "Low"],
+                    datasets: [{
+                        label: "Tasks",
+                        data: [high, medium, low],
+                        backgroundColor: ["#dc2626", "#d97706", "#16a34a"]
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: { ticks: { color: "#ffffff" } },
+                        y: { ticks: { color: "#ffffff" } }
+                    },
+                    plugins: {
+                        legend: { labels: { color: "#ffffff" } }
+                    }
+                }
+            });
+        }
+
+    });
+</script>
+
+{% endblock %}

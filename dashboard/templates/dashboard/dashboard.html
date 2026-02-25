@@ -1,0 +1,394 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+
+<div class="mb-4 p-4 rounded-4 d-flex justify-content-between align-items-center" style="background: linear-gradient(135deg,#111827,#0f172a);
+            border:1px solid rgba(255,255,255,0.08);">
+
+    <!-- LEFT SIDE -->
+    <div>
+        <h1 class="fw-bold mb-1 text-white" style="font-size:28px;">
+            <span id="greetingText"></span>,
+            <span class="text-info">{{user.username}}</span> 👋
+        </h1>
+
+        <p class="text-secondary mb-0" style="font-size:14px;">
+            Stay consistent and keep pushing your productivity.
+        </p>
+    </div>
+    <script>
+        const hour = new Date().getHours();
+        let greeting = "";
+
+        if (hour < 12) {
+            greeting = "Good Morning";
+        }
+        else if (hour < 18) {
+            greeting = "Good Afternoon";
+        }
+        else {
+            greeting = "Good Evening";
+        }
+
+        document.getElementById("greetingText").innerText = greeting;
+    </script>
+
+    <!-- RIGHT SIDE AVATAR -->
+    <div class="d-flex align-items-center gap-3">
+
+        <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:48px;height:48px;
+                    background:linear-gradient(135deg,#3b82f6,#6366f1);
+                    font-weight:600;
+                    color:white;
+                    font-size:18px;
+                    box-shadow:0 4px 15px rgba(0,0,0,0.4);">
+            {{user.username|first|upper}}
+        </div>
+
+    </div>
+</div>
+
+<!-- AI MESSAGE -->
+<div class="card p-3 mb-4" style="background:#111827;">
+    <h5>🤖 AI Productivity Insight</h5>
+    <p>{{ ai_message }}</p>
+</div>
+
+<!-- STATS -->
+<div class="row mb-4">
+
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h6>Total Tasks</h6>
+            <h3>{{ total_tasks }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h6>Completed</h6>
+            <h3>{{ completed_tasks }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h6>Pending</h6>
+            <h3>{{ pending_tasks }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h6>Applications</h6>
+            <h3>{{ total_internships }}</h3>
+        </div>
+    </div>
+
+</div>
+
+<!-- FORMS -->
+<div class="container-fluid">
+    <div class="row g-4 mt-1">
+
+        <!-- ADD TASK -->
+        <div class="col-lg-6">
+            <div class="card p-4 form-card h-100">
+
+                <h5 class="form-title mb-3">Add Task</h5>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <input class="form-control mb-3 custom-input" name="title" placeholder="Task title">
+
+                    <input type="date" class="form-control mb-3 custom-input" name="deadline">
+
+                    <select class="form-control mb-3 custom-input" name="priority">
+                        <option>Low</option>
+                        <option>Medium</option>
+                        <option>High</option>
+                    </select>
+
+                    <button class="btn btn-primary w-100 btn-lg">
+                        Add Task
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+
+        <!-- ADD INTERNSHIP -->
+        <div class="col-lg-6">
+            <div class="card p-4 form-card h-100">
+
+                <h5 class="form-title mb-3">Add Internship</h5>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <input class="form-control mb-3 custom-input" name="company" placeholder="Company">
+
+                    <input class="form-control mb-3 custom-input" name="role" placeholder="Role">
+
+                    <select class="form-control mb-3 custom-input" name="status">
+                        <option>Applied</option>
+                        <option>Interview</option>
+                        <option>Rejected</option>
+                        <option>Selected</option>
+                    </select>
+
+                    <button name="intern_submit" class="btn btn-success w-100 btn-lg">
+                        Add
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<br>
+
+<!-- TASKS -->
+<div class="row">
+
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5 class="text-white fw-semibold mb-3">🔥 Urgent Tasks</h5>
+            <ul class="list-group">
+                {% for task in urgent_tasks %}
+                <li class="p-0 mb-3">
+                    <div class="task-card urgent mb-3">
+
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="fw-semibold text-white">{{task.title}}</div>
+                                <div class="text-secondary small">{{task.deadline}}</div>
+
+                                {% if task.completed %}
+                                <span class="badge bg-success-subtle text-success mt-2">✔ Completed</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                {% if not task.completed %}
+                                <a href="/complete-task/{{task.id}}" class="btn btn-success btn-sm">✓ Done</a>
+                                {% endif %}
+
+                                <a href="/delete-task/{{task.id}}" class="btn btn-danger btn-sm">Delete</a>
+                                <a href="/edit-task/{{task.id}}" class="btn btn-primary btn-sm">Edit</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </li>
+                {% empty %}
+                <li class="py-4">
+                    <div class="card p-4 text-center"
+                        style="background:rgba(255,255,255,0.02); border:1px dashed rgba(255,255,255,0.08);">
+
+                        <div style="font-size:28px;">🔥</div>
+
+                        <div class="text-white mt-2 fw-semibold">
+                            No urgent tasks
+                        </div>
+
+                        <div class="text-secondary" style="font-size:13px;">
+                            All tasks are under control. Add new tasks to stay productive.
+                        </div>
+
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5 class="text-white fw-semibold mb-3">📋 All Tasks</h5>
+
+            <ul class="list-group list-unstyled">
+
+                {% for task in normal_tasks %}
+                <li class="mb-3">
+
+                    <div class="task-card">
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <!-- LEFT SIDE -->
+                            <div>
+                                <div class="fw-semibold text-white">
+                                    {{task.title}}
+                                </div>
+
+                                <div class="text-secondary small">
+                                    {{task.deadline}}
+                                </div>
+
+                                {% if task.completed %}
+                                <span class="badge bg-success-subtle text-success mt-2">
+                                    ✔ Completed
+                                </span>
+                                {% endif %}
+                            </div>
+
+                            <!-- RIGHT SIDE BUTTONS -->
+                            <div class="d-flex gap-2 flex-wrap">
+
+                                {% if not task.completed %}
+                                <a href="/complete-task/{{task.id}}" class="btn btn-success btn-sm">
+                                    ✓ Mark as Done
+                                </a>
+                                {% endif %}
+
+                                <a href="/delete-task/{{task.id}}" class="btn btn-danger btn-sm">
+                                    Delete
+                                </a>
+
+                                <a href="/edit-task/{{task.id}}" class="btn btn-primary btn-sm">
+                                    Edit
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </li>
+                {% empty %}
+                <li class="py-4">
+                    <div class="card p-4 text-center"
+                        style="background:rgba(255,255,255,0.02); border:1px dashed rgba(255,255,255,0.08);">
+
+                        <div style="font-size:28px;"></div>
+
+                        <div class="text-white mt-2 fw-semibold">
+                            No Tasks Available
+                        </div>
+
+                        <div class="text-secondary" style="font-size:13px;">
+                            Add New Tasks, and manage them effeciently.
+                        </div>
+
+                    </div>
+                </li>
+                {% endfor %}
+
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<br>
+
+<!-- INTERNSHIPS -->
+<div class="card p-4 mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="text-white fw-semibold mb-0">🎯 Internship Tracker</h5>
+        <span class="badge bg-primary-subtle text-primary">Applications</span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table align-middle internship-table">
+
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for i in internships %}
+                <tr class="intern-row">
+
+                    <td class="fw-semibold text-white">
+                        {{ i.company }}
+                    </td>
+
+                    <td class="text-secondary">
+                        {{ i.role }}
+                    </td>
+
+                    <td>
+                        {% if i.status == "Applied" %}
+                        <span class="badge status-applied">Applied</span>
+
+                        {% elif i.status == "Interview" %}
+                        <span class="badge status-interview">Interview</span>
+
+                        {% elif i.status == "Selected" %}
+                        <span class="badge status-selected">Selected</span>
+
+                        {% else %}
+                        <span class="badge status-rejected">Rejected</span>
+                        {% endif %}
+                    </td>
+
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center text-secondary py-4">
+                        No applications yet 🚀
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+<br>
+
+<!-- CHART -->
+<div class="card p-4">
+    <h5>📊 Productivity Analytics</h5>
+    <div style="width:400px; height:400px; margin:auto;">
+        <canvas id="taskChart"></canvas>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+
+        const completed = Number("{{ completed_tasks|default:0 }}");
+        const pending = Number("{{ pending_tasks|default:0 }}");
+
+        const ctx = document.getElementById('taskChart');
+
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completed', 'Pending'],
+                    datasets: [{
+                        data: [completed, pending],
+                        backgroundColor: ['#22c55e', '#ef4444']
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { labels: { color: "white" } }
+                    }
+                }
+            });
+        }
+
+    }
+</script>
+
+
+{% endblock %}

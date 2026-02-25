@@ -1,0 +1,46 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+<div class="login-wrapper">
+
+    <div class="login-card">
+
+        <h2 class="login-title">Welcome Back 👋</h2>
+        <p class="login-sub">Login to your productivity dashboard</p>
+
+        {% if form.errors %}
+        <div class="alert alert-danger py-2 small">
+            Invalid username or password.
+        </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control custom-input" placeholder="Enter your username"
+                    required>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control custom-input"
+                    placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-lg">
+                Login
+            </button>
+        </form>
+
+        <div class="text-center mt-4">
+            <span class="text-secondary small">Don't have an account?</span><br>
+            <a href="/signup" class="create-link">Create account</a>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
