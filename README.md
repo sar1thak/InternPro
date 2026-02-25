@@ -8,95 +8,97 @@ It enables users to manage daily tasks, track internship applications, and monit
 This project demonstrates backend development, authentication systems, database design, and deployment of a production-ready Django application.
 
 ✨ Features
+
 🔐 Authentication System
 
-User signup & login
+1)User signup & login
 
-Secure session handling
+2)Secure session handling
 
-User-specific dashboard
+3)User-specific dashboard
 
 📋 Task Management
 
-Add, edit, delete tasks
+1)Add, edit, delete tasks
 
-Priority selection (High/Medium/Low)
+2)Priority selection (High/Medium/Low)
 
-Deadline tracking
+3)Deadline tracking
 
-Mark tasks as completed
+4)Mark tasks as completed
 
-Urgent task highlighting
+5)Urgent task highlighting
 
 🎯 Internship Tracker
 
-Track applied internships
+1)Track applied internships
 
-Application status (Applied, Interview, Selected, Rejected)
+2)Application status (Applied, Interview, Selected, Rejected)
 
-Organized dashboard table view
+3)Organized dashboard table view
 
 📊 Analytics Dashboard
 
-Task completion analytics
+1)Task completion analytics
 
-Priority distribution charts
+2)Priority distribution charts
 
-Productivity insights
+3)Productivity insights
 
-Real-time dashboard metrics
+4)Real-time dashboard metrics
 
 🎨 Modern SaaS UI
 
-Dark themed responsive interface
+1)Dark themed responsive interface
 
-Clean dashboard layout
+2)Clean dashboard layout
 
-Bootstrap based UI
+3)Bootstrap based UI
 
-Glassmorphism styled components
+4)Glassmorphism styled components
 
 ☁️ Deployment
 
-Production deployment using Gunicorn
+1)Production deployment using Gunicorn
 
-Hosted on Render cloud platform
+2)Hosted on Render cloud platform
 
-Live accessible web application
+3)Live accessible web application
 
 🛠️ Tech Stack
 
 Backend:
 
-Python
+-> Python
 
-Django
+-> Django
 
-Django ORM
+-> Django ORM
 
 Frontend:
 
-HTML5
+-> HTML5
 
-CSS3
+-> CSS3
 
-Bootstrap
+-> Bootstrap
 
-Chart.js
+-> Chart.js
 
 Database:
 
-SQLite (development & deployment)
+-> SQLite (development & deployment)
 
 Deployment & Tools:
 
-Gunicorn
+-> Gunicorn
 
-Render
+-> Render
 
-Git & GitHub
+-> Git & GitHub
 
 🏗️ Project Structure
+
 InternPro/
 │
 ├── dashboard/          # Main app (tasks, internships, analytics)
@@ -108,7 +110,7 @@ InternPro/
 
 ⚙️ Installation (Run Locally)
 1. Clone repository
-git clone https://github.com/yourusername/InternPro.git
+git clone https://github.com/sar1thak/InternPro.git
 cd InternPro
 2. Create virtual environment
 python -m venv venv
@@ -127,28 +129,28 @@ http://127.0.0.1:8000
 
 This project is deployed on Render using:
 
-Gunicorn web server
+1)Gunicorn web server
 
-Django production settings
+2)Django production settings
 
-Static file handling
+3)Static file handling
 
-Cloud hosting environment
+4)Cloud hosting environment
 
 Live URL:
 👉 https://internpro-ngsj.onrender.com
 
 📈 Future Improvements
 
-PostgreSQL production database
+-> PostgreSQL production database
 
-REST API integration
+-> REST API integration
 
-Email reminders for deadlines
+-> Email reminders for deadlines
 
-AI productivity insights
+-> AI productivity insights
 
-Mobile responsive optimization
+-> Mobile responsive optimization
 
 👨‍💻 Author
 
