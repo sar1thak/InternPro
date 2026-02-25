@@ -99,14 +99,8 @@ Deployment & Tools:
 
 🏗️ Project Structure
 
-InternPro/
-│
-├── dashboard/          # Main app (tasks, internships, analytics)
-├── InternPro/          # Project settings & configuration
-├── templates/          # HTML templates
-├── static/             # CSS & JS
-├── manage.py
-└── requirements.txt
+<img width="668" height="261" alt="image" src="https://github.com/user-attachments/assets/5c9c6754-1e64-47a6-98e2-5da8e0d19620" />
+
 
 ⚙️ Installation (Run Locally)
 1. Clone repository
