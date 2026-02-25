@@ -53,7 +53,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "InternManager.urls"
+ROOT_URLCONF = "InternPro.urls"
 
 TEMPLATES = [
     {
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "InternManager.wsgi.application"
+WSGI_APPLICATION = "InternPro.wsgi.application"
 
 
 # Database
